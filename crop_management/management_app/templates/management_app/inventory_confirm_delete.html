@@ -1,0 +1,7 @@
+<h1>Stok Sil</h1>
+<p>Bu stoğu silmek istediğinizden emin misiniz: {{ inventory_item.name }}?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Evet, Sil</button>
+</form>
+<a href="{% url 'inventory_list' %}">İptal</a>

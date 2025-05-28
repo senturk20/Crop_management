@@ -1,0 +1,11 @@
+<h1>Ürünlerim</h1>
+<a href="{% url 'crop_add' %}">Yeni Ürün Ekle</a>
+<ul>
+    {% for crop in crops %}
+        <li>
+            {{ crop.name }} ({{ crop.type }}) -
+            <a href="{% url 'crop_edit' crop.pk %}">Düzenle</a> |
+            <a href="{% url 'crop_delete' crop.pk %}">Sil</a>
+        </li>
+    {% endfor %}
+</ul>

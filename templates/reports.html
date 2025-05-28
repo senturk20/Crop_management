@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reports</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    {% extends 'base.html' %}
+    {% block content %}
+    <div class="container mt-4">
+        <h2>Reports</h2>
+        {% if session['role'] == 'admin' %}
+        <div class="mb-3">
+            <a href="{{ url_for('export_crops') }}" class="btn btn-sm btn-secondary me-2">Download Crops CSV</a>
+            <a href="{{ url_for('export_inventory') }}" class="btn btn-sm btn-secondary me-2">Download Inventory CSV</a>
+        </div>
+        {% endif %}
+
+        <h3>Upcoming Harvests</h3>
+        <div class="table-responsive position-relative">
+            {% if due_crops|selectattr('status', 'equalto', 'Due Soon')|list|length > 8 %}
+            <button class="btn btn-outline-primary btn-sm position-absolute" style="top:0; right:0; z-index:2;" type="button" id="toggleUpcomingBtn" onclick="toggleRowsByClass('upcoming-row', 8, this)">Show All</button>
+            {% endif %}
+            <table class="table table-bordered table-striped mb-0" id="upcomingHarvestsTable">
+                <thead>
+                    <tr>
+                        <th>Crop Name</th>
+                        <th>Harvest Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {# Collect due soon rows in a variable in Python, not Jinja #}
+                {% for entry in due_crops if entry.status == 'Due Soon' %}
+                    {% if loop.index <= 8 %}
+                    <tr class="table-warning upcoming-row">
+                        <td>{{ entry.crop.name }}</td>
+                        <td>{{ entry.crop.harvest_date }}</td>
+                    </tr>
+                    {% else %}
+                    <tr class="table-warning upcoming-row" style="display:none;">
+                        <td>{{ entry.crop.name }}</td>
+                        <td>{{ entry.crop.harvest_date }}</td>
+                    </tr>
+                    {% endif %}
+                {% else %}
+                    <tr><td colspan="2" class="text-center">No upcoming harvests.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Overdue Harvests</h3>
+        <div class="table-responsive position-relative">
+            {% if due_crops|selectattr('status', 'equalto', 'Overdue')|list|length > 8 %}
+            <button class="btn btn-outline-primary btn-sm position-absolute" style="top:0; right:0; z-index:2;" type="button" id="toggleOverdueBtn" onclick="toggleRowsByClass('overdue-row', 8, this)">Show All</button>
+            {% endif %}
+            <table class="table table-bordered table-striped mb-0" id="overdueHarvestsTable">
+                <thead>
+                    <tr>
+                        <th>Crop Name</th>
+                        <th>Harvest Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for entry in due_crops if entry.status == 'Overdue' %}
+                    {% if loop.index <= 8 %}
+                    <tr class="table-danger overdue-row">
+                        <td>{{ entry.crop.name }}</td>
+                        <td>{{ entry.crop.harvest_date }}</td>
+                    </tr>
+                    {% else %}
+                    <tr class="table-danger overdue-row" style="display:none;">
+                        <td>{{ entry.crop.name }}</td>
+                        <td>{{ entry.crop.harvest_date }}</td>
+                    </tr>
+                    {% endif %}
+                {% else %}
+                    <tr><td colspan="2" class="text-center">No overdue harvests.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Low Inventory</h3>
+        <div class="table-responsive position-relative">
+            {% if low_stock|length > 8 %}
+            <button class="btn btn-outline-primary btn-sm position-absolute" style="top:0; right:0; z-index:2;" type="button" id="toggleLowBtn" onclick="toggleRowsByClass('low-row', 8, this)">Show All</button>
+            {% endif %}
+            <table class="table table-bordered table-striped mb-0" id="lowInventoryTable">
+                <thead>
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for item in low_stock %}
+                    {% if loop.index <= 8 %}
+                    <tr class="low-row">
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                    </tr>
+                    {% else %}
+                    <tr class="low-row" style="display:none;">
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                    </tr>
+                    {% endif %}
+                {% else %}
+                    <tr><td colspan="2" class="text-center">No low inventory items.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <h3>Inventory Used Per Crop</h3>
+        <div class="table-responsive position-relative">
+            {% if crop_inventory_usage|length > 8 %}
+            <button class="btn btn-outline-primary btn-sm position-absolute" style="top:0; right:0; z-index:2;" type="button" id="toggleUsageBtn" onclick="toggleRowsByClass('usage-row', 8, this)">Show All</button>
+            {% endif %}
+            <table class="table table-bordered table-striped mb-0" id="usageTable">
+                <thead>
+                    <tr>
+                        <th>Crop Name</th>
+                        <th>Inventory Item</th>
+                        <th>Quantity Used</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% set usage_row_count = 0 %}
+                {% for entry in crop_inventory_usage %}
+                    {% for usage in entry.usage %}
+                        {% set usage_row_count = usage_row_count + 1 %}
+                        <tr class="usage-row" {% if usage_row_count > 8 %}style="display:none;"{% endif %}>
+                            <td>{{ entry.crop.name }}</td>
+                            <td>{{ usage.item.name }}</td>
+                            <td>{{ usage.quantity_used }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+                {% if usage_row_count == 0 %}
+                    <tr><td colspan="3" class="text-center">No inventory usage data available.</td></tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary mt-3">Back to Dashboard</a>
+    </div>
+    <script>
+    function toggleRowsByClass(rowClass, showCount, btn) {
+        var rows = document.getElementsByClassName(rowClass);
+        var isHidden = false;
+        for (var i = 0; i < rows.length; i++) {
+            if (rows[i].style.display === 'none') {
+                isHidden = true;
+                break;
+            }
+        }
+        if (isHidden) {
+            for (var i = 0; i < rows.length; i++) {
+                rows[i].style.display = '';
+            }
+            btn.textContent = 'Show Less';
+        } else {
+            for (var i = 0; i < rows.length; i++) {
+                if (i < showCount) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+            btn.textContent = 'Show All';
+        }
+    }
+    </script>
+    {% endblock %}
+</body>
+</html>

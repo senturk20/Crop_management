@@ -1,0 +1,14 @@
+<h1>Aylık Satış Trendleri</h1>
+<table border="1">
+    <tr>
+        <th>Ay</th>
+        <th>Toplam Satış</th>
+    </tr>
+    {% for sale in sales %}
+    <tr>
+        <td>{{ sale.month|date:"F Y" }}</td>
+        <td>{{ sale.total_sales }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{% url 'home' %}">Ana Sayfa</a>

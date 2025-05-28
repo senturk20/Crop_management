@@ -1,0 +1,7 @@
+<h1>Satış Sil</h1>
+<p>Bu satışı silmek istediğinizden emin misiniz?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Evet, Sil</button>
+</form>
+<a href="{% url 'sale_list' %}">İptal</a>

@@ -1,0 +1,14 @@
+<h1>Düşük Verimle Ürünler</h1>
+<table border="1">
+    <tr>
+        <th>Ürün Adı</th>
+        <th>Verim Miktarı</th>
+    </tr>
+    {% for crop in crops %}
+    <tr>
+        <td>{{ crop.name }}</td>
+        <td>{{ crop.yield_quantity }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{% url 'home' %}">Ana Sayfa</a>

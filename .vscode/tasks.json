@@ -1,0 +1,19 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "Install Python dependencies",
+			"command": "pip install -r requirements.txt",
+			"group": "build",
+			"problemMatcher": []
+		},
+		{
+			"type": "shell",
+			"label": "Run Flask app",
+			"command": "python app.py",
+			"group": "test",
+			"problemMatcher": []
+		}
+	]
+}

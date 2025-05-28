@@ -1,0 +1,7 @@
+<h1>Stok Formu</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Kaydet</button>
+</form>
+<a href="{% url 'inventory_list' %}">Geri Dön</a>

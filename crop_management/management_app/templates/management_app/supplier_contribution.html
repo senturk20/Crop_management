@@ -1,0 +1,14 @@
+<h1>Tedarikçi Katkı Raporu</h1>
+<table border="1">
+    <tr>
+        <th>Tedarikçi Adı</th>
+        <th>Toplam Sağlanan Ürün Miktarı</th>
+    </tr>
+    {% for item in report %}
+    <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.total_items }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{% url 'home' %}">Ana Sayfa</a>

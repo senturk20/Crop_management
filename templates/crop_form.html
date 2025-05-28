@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ crop and "Edit" or "Add" }} Crop</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+  {% extends 'base.html' %}
+  {% block content %}
+  <div class="container mt-4">
+      <h2>{% if crop %}Edit Crop{% else %}Add Crop{% endif %}</h2>
+      <form method="post">
+          <div class="mb-3">
+            <label for="name" class="form-label">Crop Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Crop Name" value="{{ crop.name if crop else '' }}" required>
+          </div>
+          <div class="mb-3">
+            <label for="planting_date" class="form-label">Planting Date</label>
+            <input type="date" class="form-control" id="planting_date" name="planting_date" value="{{ crop.planting_date if crop else '' }}" required>
+          </div>
+          <div class="mb-3">
+            <label for="harvest_date" class="form-label">Harvest Date</label>
+            <input type="date" class="form-control" id="harvest_date" name="harvest_date" value="{{ crop.harvest_date if crop else '' }}" required>
+          </div>
+          <div class="mb-3">
+            <label for="yield_quantity" class="form-label">Yield Quantity</label>
+            <input type="number" class="form-control" id="yield_quantity" name="yield_quantity" value="{{ crop.yield_quantity if crop and crop.yield_quantity is defined else '' }}">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-success">Save</button>
+            <a href="{{ url_for('crops') }}" class="btn btn-secondary">Cancel</a>
+          </div>
+      </form>
+      <a href="{{ url_for('crops') }}" class="btn btn-secondary mt-3">Back to Crops</a>
+  </div>
+  {% endblock %}
+</body>
+</html>

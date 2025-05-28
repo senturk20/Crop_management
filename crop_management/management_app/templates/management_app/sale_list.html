@@ -1,0 +1,11 @@
+<h1>Satışlar</h1>
+<a href="{% url 'sale_add' %}">Yeni Satış Ekle</a>
+<ul>
+    {% for sale in sales %}
+        <li>
+            {{ sale.crop.name }} - {{ sale.quantity_sold }} adet - {{ sale.price }} TL
+            <a href="{% url 'sale_edit' sale.pk %}">Düzenle</a> |
+            <a href="{% url 'sale_delete' sale.pk %}">Sil</a>
+        </li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,14 @@
+<h1>En Çok Kullanılan Stoklar</h1>
+<table border="1">
+    <tr>
+        <th>Stok Adı</th>
+        <th>Kullanılma Sayısı</th>
+    </tr>
+    {% for item in report %}
+    <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.usage_count }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{% url 'home' %}">Ana Sayfa</a>

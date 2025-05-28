@@ -1,0 +1,14 @@
+<h1>Çiftçi Başına Ürün Sayısı</h1>
+<table border="1">
+    <tr>
+        <th>Çiftçi</th>
+        <th>Toplam Ürün</th>
+    </tr>
+    {% for item in report %}
+    <tr>
+        <td>{{ item.username }}</td>
+        <td>{{ item.total_crops }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{% url 'home' %}">Ana Sayfa</a>

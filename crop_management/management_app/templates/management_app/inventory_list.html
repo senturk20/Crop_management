@@ -1,0 +1,11 @@
+<h1>Stok Listesi</h1>
+<a href="{% url 'inventory_add' %}">Yeni Stok Ekle</a>
+<ul>
+    {% for item in inventory_items %}
+        <li>
+            {{ item.name }} ({{ item.type }}) - {{ item.quantity }} adet
+            <a href="{% url 'inventory_edit' item.pk %}">Düzenle</a> |
+            <a href="{% url 'inventory_delete' item.pk %}">Sil</a>
+        </li>
+    {% endfor %}
+</ul>

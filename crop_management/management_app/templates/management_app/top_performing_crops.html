@@ -1,0 +1,14 @@
+<h1>En Yüksek Kar Getiren Ürünler</h1>
+<table border="1">
+    <tr>
+        <th>Ürün Adı</th>
+        <th>Toplam Kar</th>
+    </tr>
+    {% for crop in crops %}
+    <tr>
+        <td>{{ crop.name }}</td>
+        <td>{{ crop.total_profit }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{% url 'home' %}">Ana Sayfa</a>

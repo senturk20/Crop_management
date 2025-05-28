@@ -1,0 +1,14 @@
+<h1>Düşük Stok Uyarısı</h1>
+<table border="1">
+    <tr>
+        <th>Stok Adı</th>
+        <th>Mevcut Stok</th>
+    </tr>
+    {% for item in low_stock_items %}
+    <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.quantity }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{% url 'home' %}">Ana Sayfa</a>

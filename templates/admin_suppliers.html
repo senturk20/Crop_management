@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Suppliers</h2>
+    <a href="{{ url_for('admin_add_supplier') }}" class="btn btn-primary mb-3">Add Supplier</a>
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Contact</th>
+                <th>Address</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for supplier in suppliers %}
+            <tr>
+                <td>{{ supplier.name }}</td>
+                <td>{{ supplier.contact }}</td>
+                <td>{{ supplier.address }}</td>
+                <td>
+                    <a href="{{ url_for('admin_edit_supplier', id=supplier.id) }}" class="btn btn-sm btn-warning">Edit</a>
+                    <form action="{{ url_for('admin_delete_supplier', id=supplier.id) }}" method="post" style="display:inline-block;">
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this supplier?');">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary mt-2">Back to Dashboard</a>
+</div>
+{% endblock %}

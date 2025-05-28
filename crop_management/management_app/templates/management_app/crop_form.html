@@ -1,0 +1,7 @@
+<h1>Ürün Formu</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Kaydet</button>
+</form>
+<a href="{% url 'crop_list' %}">Geri Dön</a>

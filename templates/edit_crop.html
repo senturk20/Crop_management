@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Crop</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    {% extends 'base.html' %}
+    {% block content %}
+    <div class="container mt-4">
+        <h2>Edit Crop</h2>
+        <form method="POST">
+            <div class="mb-3">
+                <label for="name" class="form-label">Crop Name</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ crop.name }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="planting_date" class="form-label">Planting Date</label>
+                <input type="date" class="form-control" id="planting_date" name="planting_date" value="{{ crop.planting_date }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="harvest_date" class="form-label">Harvest Date</label>
+                <input type="date" class="form-control" id="harvest_date" name="harvest_date" value="{{ crop.harvest_date }}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Crop</button>
+        </form>
+        <a href="{{ url_for('crops') }}" class="btn btn-secondary mt-3">Back to Crops</a>
+    </div>
+    {% endblock %}
+</body>
+</html>

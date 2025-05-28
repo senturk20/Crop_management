@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>{{ 'Edit Supplier' if supplier else 'Add Supplier' }}</h2>
+    <form method="post">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" required value="{{ supplier.name if supplier else '' }}">
+        </div>
+        <div class="mb-3">
+            <label for="contact" class="form-label">Contact</label>
+            <input type="text" class="form-control" id="contact" name="contact" value="{{ supplier.contact if supplier else '' }}">
+        </div>
+        <div class="mb-3">
+            <label for="address" class="form-label">Address</label>
+            <input type="text" class="form-control" id="address" name="address" value="{{ supplier.address if supplier else '' }}">
+        </div>
+        <button type="submit" class="btn btn-success">{{ 'Update' if supplier else 'Add' }} Supplier</button>
+        <a href="{{ url_for('admin_suppliers') }}" class="btn btn-secondary ms-2">Cancel</a>
+    </form>
+</div>
+{% endblock %}
